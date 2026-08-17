@@ -1054,12 +1054,12 @@
         </div>
         <div class="hero-visual">
           <div class="photo-frame">
-            <img class="photo-img is-hidden" alt="Mostafa El Esialy">
-            <div class="photo-placeholder" id="photo-fallback">
+            <img class="photo-img" src="./Me.jpg" alt="Mostafa El Esialy" onerror="this.classList.add('is-hidden'); document.getElementById('photo-fallback').classList.remove('is-hidden'); document.getElementById('photo-tag-name').textContent='svg';">
+            <div class="photo-placeholder is-hidden" id="photo-fallback">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
               <span>PHOTO&nbsp;UNAVAILABLE<br>SVG&nbsp;FALLBACK</span>
             </div>
-            <div class="photo-tag"><span class="dot"></span><span id="photo-tag-name">me</span></div>
+            <div class="photo-tag"><span class="dot"></span><span id="photo-tag-name">Me.jpg</span></div>
           </div>
         </div>
       </div>
@@ -1469,43 +1469,6 @@
   } else {
     document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
   }
-
-  // Hero photo: use local `me` image, otherwise keep the SVG fallback
-  (function loadHeroPhoto(){
-    var img = document.querySelector('.photo-img');
-    var fallback = document.getElementById('photo-fallback');
-    var tagName = document.getElementById('photo-tag-name');
-    if(!img || !fallback) return;
-
-    var candidates = ['me.jpg','me.jpeg','me.png','me.webp','me.gif','me.JPG','me.PNG','me'];
-    var i = 0;
-
-    function showFallback(){
-      img.classList.add('is-hidden');
-      img.removeAttribute('src');
-      fallback.classList.remove('is-hidden');
-      if(tagName) tagName.textContent = 'svg';
-    }
-
-    function showPhoto(src){
-      img.classList.remove('is-hidden');
-      fallback.classList.add('is-hidden');
-      if(tagName) tagName.textContent = src;
-    }
-
-    function tryNext(){
-      if(i >= candidates.length){
-        showFallback();
-        return;
-      }
-      var src = candidates[i++];
-      img.onload = function(){ showPhoto(src); };
-      img.onerror = tryNext;
-      img.src = src;
-    }
-
-    tryNext();
-  })();
 
   // Download CV placeholder — no CV file provided, so avoid a dead/fake link
   var cvBtn = document.getElementById('downloadCv');
