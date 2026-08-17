@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mostafa El Esialy — Backend Developer</title>
+<meta name="description" content="Mostafa El Esialy — Backend Developer specializing in C# and ASP.NET Core, building secure and scalable RESTful APIs.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FAF9F6;
+    --surface:#FFFFFF;
+    --surface-sunken:#F3F2EE;
+    --ink:#1B1D1F;
+    --ink-soft:#4A4E54;
+    --muted:#767B82;
+    --border:#E3E1DA;
+    --border-strong:#CFCCC3;
+    --accent:#2E4A5E;
+    --accent-strong:#1F3444;
+    --accent-tint:#EAF0F2;
+    --accent-tint-2:#DCE6E9;
+    --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius-sm:3px;
+    --radius-md:4px;
+    --max:1140px;
+    --nav-h:68px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  section{
+    padding:112px 0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+
+  .eyebrow::before{
+    content:'';
+    width:22px;
+    height:1px;
+    background:var(--accent);
+  }
+
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+
+  .section-head h2{
+    font-size:clamp(26px,3vw,32px);
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+
+  .section-head p{
+    color:var(--ink-soft);
+    font-size:16px;
+  }
+
+  /* ============ NAV ============ */
+  header{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:1000;
+    background:rgba(250,249,246,0.9);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, box-shadow .25s ease, padding .25s ease;
+  }
+
+  header.scrolled{
+    border-bottom-color:var(--border);
+    box-shadow:0 1px 0 rgba(0,0,0,0.02);
+  }
+
+  nav{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+    height:var(--nav-h);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:height .25s ease;
+  }
+
+  header.scrolled nav{height:58px;}
+
+  .brand{
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    letter-spacing:-0.01em;
+  }
+
+  .brand .dot{
+    width:7px;height:7px;
+    background:var(--accent);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+
+  .nav-links a{
+    font-size:14.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+    position:relative;
+    padding:4px 0;
+    transition:color .15s ease;
+  }
+
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0;bottom:-3px;
+    width:0;height:1.5px;
+    background:var(--accent);
+    transition:width .2s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active{color:var(--ink);}
+  .nav-links a:hover::after,
+  .nav-links a.active::after{width:100%;}
+
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+
+  .icon-link{
+    width:34px;height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    color:var(--ink-soft);
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+
+  .icon-link:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:var(--accent-tint);
+  }
+
+  .hamburger{
+    display:none;
+    width:34px;height:34px;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    background:transparent;
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .hamburger span{
+    width:16px;height:1.5px;
+    background:var(--ink);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+
+  .hamburger.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+
+  .mobile-menu{
+    display:none;
+    position:fixed;
+    top:var(--nav-h);
+    left:0;right:0;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:8px 32px 24px;
+    z-index:999;
+    flex-direction:column;
+    gap:2px;
+  }
+
+  .mobile-menu.open{display:flex;}
+
+  .mobile-menu a{
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .mobile-menu a:last-of-type{border-bottom:none;}
+
+  .mobile-socials{
+    display:flex;
+    gap:12px;
+    margin-top:16px;
+  }
+
+  /* ============ HERO ============ */
+  #home{
+    padding-top:calc(var(--nav-h) + 88px);
+    padding-bottom:96px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:64px;
+    align-items:center;
+  }
+
+  .hero-kicker{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .hero-kicker .pulse{
+    width:7px;height:7px;
+    border-radius:50%;
+    background:#3E8E5C;
+    position:relative;
+  }
+  .hero-kicker .pulse::after{
+    content:'';
+    position:absolute;inset:-4px;
+    border:1px solid #3E8E5C;
+    border-radius:50%;
+    animation:pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{transform:scale(0.6);opacity:0.8;}
+    100%{transform:scale(1.9);opacity:0;}
+  }
+
+  .hero-grid h1{
+    font-size:clamp(36px,4.6vw,54px);
+    font-weight:800;
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin-bottom:18px;
+  }
+
+  .hero-grid h1 span{color:var(--accent);}
+
+  .hero-role{
+    font-family:var(--mono);
+    font-size:16px;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+  }
+
+  .hero-desc{
+    color:var(--ink-soft);
+    font-size:16.5px;
+    max-width:520px;
+    margin-bottom:36px;
+  }
+
+  .hero-actions{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:40px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 22px;
+    border-radius:var(--radius-md);
+    font-size:14.5px;
+    font-weight:600;
+    border:1px solid transparent;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+  }
+
+  .btn-primary{
+    background:var(--accent);
+    color:#fff;
+  }
+  .btn-primary:hover{background:var(--accent-strong); transform:translateY(-1px);}
+
+  .btn-ghost{
+    border-color:var(--border-strong);
+    color:var(--ink);
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px);}
+
+  .hero-meta{
+    display:flex;
+    gap:28px;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--muted);
+  }
+  .hero-meta li{display:flex; align-items:center; gap:8px;}
+  .hero-meta svg{width:14px;height:14px; flex-shrink:0; color:var(--accent);}
+
+  .hero-visual{
+    position:relative;
+  }
+
+  .photo-frame{
+    position:relative;
+    aspect-ratio:4/5;
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius-md);
+    background:
+      linear-gradient(var(--surface-sunken) 1px, transparent 1px) 0 0/100% 24px,
+      linear-gradient(90deg, var(--surface-sunken) 1px, transparent 1px) 0 0/24px 100%,
+      var(--surface);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .photo-frame::before{
+    content:'';
+    position:absolute;
+    top:-1px;right:-1px;
+    width:64px;height:64px;
+    border-left:1px solid var(--border-strong);
+    border-bottom:1px solid var(--border-strong);
+    background:var(--bg);
+    z-index:2;
+  }
+
+  .photo-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+    z-index:1;
+  }
+
+  .photo-img.is-hidden{display:none;}
+
+  .photo-placeholder{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    color:var(--muted);
+    text-align:center;
+    padding:24px;
+    z-index:1;
+  }
+
+  .photo-placeholder.is-hidden{display:none;}
+
+  .photo-placeholder svg{width:44px;height:44px;color:var(--border-strong);}
+
+  .photo-placeholder span{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.04em;
+  }
+
+  .photo-tag{
+    position:absolute;
+    bottom:16px;left:16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    padding:8px 12px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    z-index:3;
+  }
+
+  .photo-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  /* ============ REVEAL ============ */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ============ ABOUT ============ */
+  .about-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:64px;
+    align-items:start;
+  }
+
+  .about-grid p{
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    font-size:16px;
+  }
+
+  .about-grid p:last-child{margin-bottom:0;}
+
+  .about-facts{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+  }
+
+  .about-facts .fact{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 20px;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+  }
+  .about-facts .fact:last-child{border-bottom:none;}
+  .about-facts .fact .label{color:var(--muted); font-family:var(--mono); font-size:12.5px;}
+  .about-facts .fact .value{color:var(--ink); font-weight:600; text-align:right;}
+
+  /* ============ SKILLS ============ */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+  }
+
+  .skill-group{
+    background:var(--surface);
+    padding:28px 26px;
+  }
+
+  .skill-group h3{
+    font-family:var(--mono);
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--accent);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .skill-group h3::before{
+    content:'';
+    width:14px;height:1px;
+    background:var(--accent);
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .tag{
+    font-size:13px;
+    padding:6px 11px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    color:var(--ink-soft);
+    background:var(--bg);
+    transition:border-color .15s ease, color .15s ease;
+  }
+
+  .tag:hover{border-color:var(--accent); color:var(--accent);}
+
+  /* ============ EXPERIENCE ============ */
+  .timeline{
+    position:relative;
+    padding-left:32px;
+  }
+
+  .timeline::before{
+    content:'';
+    position:absolute;
+    left:5px;top:8px;bottom:8px;
+    width:1px;
+    background:var(--border-strong);
+  }
+
+  .timeline-item{
+    position:relative;
+    padding-bottom:44px;
+  }
+  .timeline-item:last-child{padding-bottom:0;}
+
+  .timeline-item::before{
+    content:'';
+    position:absolute;
+    left:-32px;
+    top:6px;
+    width:11px;height:11px;
+    border-radius:50%;
+    background:var(--surface);
+    border:2px solid var(--accent);
+  }
+
+  .timeline-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px 16px;
+    margin-bottom:6px;
+  }
+
+  .timeline-head h3{
+    font-size:18.5px;
+    font-weight:700;
+  }
+
+  .timeline-date{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  .timeline-org{
+    font-size:14px;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+
+  .timeline-org span{color:var(--muted); font-weight:400;}
+
+  .timeline-item p, .timeline-item ul{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:640px;
+  }
+
+  .timeline-item ul{padding-left:18px; list-style:disc;}
+  .timeline-item ul li{margin-bottom:4px;}
+
+  /* ============ PROJECTS ============ */
+  .project-featured{
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    margin-bottom:28px;
+    background:var(--surface);
+  }
+
+  .project-featured-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .project-visual{
+    background:
+      linear-gradient(var(--accent-tint) 1px, transparent 1px) 0 0/100% 20px,
+      linear-gradient(90deg, var(--accent-tint) 1px, transparent 1px) 0 0/20px 100%,
+      var(--surface-sunken);
+    padding:36px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:12px;
+    border-right:1px solid var(--border);
+  }
+
+  .arch-node{
+    background:var(--surface);
+    border:1px solid var(--border-strong);
+    border-radius:var(--radius-sm);
+    padding:10px 14px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .arch-node.center{
+    border-color:var(--accent);
+    color:var(--accent);
+    font-weight:600;
+  }
+
+  .arch-node .dot{width:6px;height:6px;border-radius:50%;background:var(--accent); flex-shrink:0;}
+
+  .arch-connector{
+    width:1px;
+    height:14px;
+    background:var(--border-strong);
+    margin-left:15px;
+  }
+
+  .project-body{
+    padding:36px;
+  }
+
+  .project-label{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:12px;
+  }
+
+  .project-body h3{
+    font-size:23px;
+    font-weight:800;
+    margin-bottom:6px;
+  }
+
+  .project-date{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+    margin-bottom:16px;
+    display:block;
+  }
+
+  .project-body p{
+    color:var(--ink-soft);
+    font-size:15px;
+    margin-bottom:20px;
+  }
+
+  .project-tech{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-bottom:22px;
+  }
+
+  .project-actions{display:flex; gap:12px; flex-wrap:wrap;}
+
+  .btn-sm{
+    padding:10px 16px;
+    font-size:13.5px;
+  }
+
+  .btn-disabled{
+    border:1px dashed var(--border-strong);
+    color:var(--muted);
+    background:transparent;
+    cursor:default;
+  }
+
+  .projects-secondary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+
+  .project-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:30px;
+    background:var(--surface);
+    transition:border-color .2s ease, transform .2s ease;
+  }
+
+  .project-card:hover{border-color:var(--border-strong); transform:translateY(-2px);}
+
+  .project-card h3{
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+
+  .project-card .project-date{margin-bottom:14px;}
+  .project-card p{color:var(--ink-soft); font-size:14.5px; margin-bottom:18px;}
+
+  /* ============ FOCUS ============ */
+  .focus-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    overflow:hidden;
+  }
+
+  .focus-item{
+    background:var(--surface);
+    padding:30px 28px;
+  }
+
+  .focus-item .num{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:16px;
+    display:block;
+  }
+
+  .focus-item svg{width:22px;height:22px; color:var(--accent); margin-bottom:16px;}
+
+  .focus-item h3{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+
+  .focus-item p{
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+
+  /* ============ EDUCATION / LANGUAGES ============ */
+  .split-two{
+    display:grid;
+    grid-template-columns:1.3fr 0.7fr;
+    gap:24px;
+  }
+
+  .info-card{
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:32px;
+    background:var(--surface);
+  }
+
+  .info-card h3{
+    font-size:19px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+
+  .info-card .org{
+    color:var(--accent);
+    font-weight:600;
+    font-size:14.5px;
+    margin-bottom:6px;
+  }
+
+  .info-card .date{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+  }
+
+  .lang-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .lang-row:last-child{border-bottom:none;}
+  .lang-row .name{font-weight:600; font-size:15px;}
+  .lang-row .level{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--accent);
+    background:var(--accent-tint);
+    padding:4px 10px;
+    border-radius:var(--radius-sm);
+  }
+
+  /* ============ CONTACT ============ */
+  #contact{border-bottom:none;}
+
+  .contact-inner{
+    text-align:center;
+    max-width:640px;
+    margin:0 auto;
+  }
+
+  .contact-inner h2{
+    font-size:clamp(28px,4vw,38px);
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+
+  .contact-inner > p{
+    color:var(--ink-soft);
+    font-size:16.5px;
+    margin-bottom:44px;
+  }
+
+  .contact-links{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    text-align:left;
+  }
+
+  .contact-link{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:18px 20px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+
+  .contact-link:hover{
+    border-color:var(--accent);
+    background:var(--accent-tint);
+    transform:translateY(-1px);
+  }
+
+  .contact-link .icon{
+    width:38px;height:38px;
+    border-radius:var(--radius-sm);
+    background:var(--surface-sunken);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    color:var(--accent);
+  }
+  .contact-link .icon svg{width:18px;height:18px;}
+
+  .contact-link .txt .label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-bottom:2px;
+  }
+  .contact-link .txt .value{
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    word-break:break-word;
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    padding:36px 0;
+  }
+
+  .footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+
+  .footer-brand{
+    font-family:var(--mono);
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .footer-brand strong{color:var(--ink);}
+
+  .footer-links{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    font-size:13.5px;
+    color:var(--muted);
+  }
+
+  .footer-links a:hover{color:var(--accent);}
+
+  .footer-copy{
+    font-size:12.5px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 980px){
+    .wrap{padding:0 24px;}
+    section{padding:80px 0;}
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+    .hero-grid{grid-template-columns:1fr; gap:48px;}
+    .hero-visual{max-width:360px;}
+    .about-grid{grid-template-columns:1fr; gap:36px;}
+    .skills-grid{grid-template-columns:1fr 1fr;}
+    .focus-grid{grid-template-columns:1fr 1fr;}
+    .project-featured-grid{grid-template-columns:1fr;}
+    .project-visual{border-right:none; border-bottom:1px solid var(--border);}
+    .projects-secondary{grid-template-columns:1fr;}
+    .split-two{grid-template-columns:1fr;}
+    .contact-links{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 600px){
+    #home{padding-top:calc(var(--nav-h) + 56px);}
+    .skills-grid{grid-template-columns:1fr;}
+    .focus-grid{grid-template-columns:1fr;}
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .hero-actions .btn{justify-content:center;}
+    .hero-meta{flex-direction:column; gap:10px;}
+    .timeline-head{flex-direction:column; align-items:flex-start;}
+    .footer-inner{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav>
+    <a href="#home" class="brand"><span class="dot"></span>Mostafa El Esialy</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" data-nav>Home</a></li>
+      <li><a href="#about" data-nav>About</a></li>
+      <li><a href="#skills" data-nav>Skills</a></li>
+      <li><a href="#experience" data-nav>Experience</a></li>
+      <li><a href="#projects" data-nav>Projects</a></li>
+      <li><a href="#contact" data-nav>Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="icon-link" href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" aria-label="GitHub profile">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+      </a>
+      <a class="icon-link" href="https://linkedin.com/in/mostafa-el-esialy-7b7827328" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" data-nav>Home</a>
+    <a href="#about" data-nav>About</a>
+    <a href="#skills" data-nav>Skills</a>
+    <a href="#experience" data-nav>Experience</a>
+    <a href="#projects" data-nav>Projects</a>
+    <a href="#contact" data-nav>Contact</a>
+    <div class="mobile-socials">
+      <a class="icon-link" href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+      </a>
+      <a class="icon-link" href="https://linkedin.com/in/mostafa-el-esialy-7b7827328" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="hero-kicker"><span class="pulse"></span>Available for internships &amp; junior roles</p>
+          <h1>Mostafa El Esialy</h1>
+          <p class="hero-role">// Backend Developer — C# · ASP.NET Core</p>
+          <p class="hero-desc">Building secure, scalable, and maintainable backend systems with modern .NET — from RESTful APIs and clean architecture to real-time communication and caching.</p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#" class="btn btn-ghost" id="downloadCv">Download CV</a>
+            <a href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" class="btn btn-ghost">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+              GitHub
+            </a>
+          </div>
+          <ul class="hero-meta">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 12 2a7 7 0 0 1 7 7.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.2"/></svg> Cairo, Egypt</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg> elesialy@gmail.com</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg> +20 109 487 2269</li>
+          </ul>
+        </div>
+        <div class="hero-visual">
+          <div class="photo-frame">
+            <img class="photo-img is-hidden" alt="Mostafa El Esialy">
+            <div class="photo-placeholder" id="photo-fallback">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span>PHOTO&nbsp;UNAVAILABLE<br>SVG&nbsp;FALLBACK</span>
+            </div>
+            <div class="photo-tag"><span class="dot"></span><span id="photo-tag-name">me</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2 style="font-size:clamp(26px,3vw,32px); font-weight:800; letter-spacing:-0.01em; margin-bottom:22px;">Focused on systems that hold up under real use.</h2>
+          <p>I'm a backend developer working mainly with C# and ASP.NET Core Web API. My focus is on building RESTful APIs that are secure, scalable, and easy to maintain — using Clean Architecture, SOLID principles, and well-tested patterns like Repository and Unit of Work.</p>
+          <p>Most of my work centers on the parts of an application that aren't visible but matter most: authentication, data access, caching, real-time communication, and deployment. I care about writing code that the next developer — often future me — can actually understand and extend.</p>
+          <p>Alongside development, I've spent time teaching backend and frontend fundamentals to other students, which has sharpened how I explain and structure technical decisions.</p>
+        </div>
+        <div class="about-facts reveal">
+          <div class="fact"><span class="label">ROLE</span><span class="value">Backend Developer</span></div>
+          <div class="fact"><span class="label">STACK</span><span class="value">C# / ASP.NET Core</span></div>
+          <div class="fact"><span class="label">FOCUS</span><span class="value">APIs &amp; Architecture</span></div>
+          <div class="fact"><span class="label">LOCATION</span><span class="value">Cairo, Egypt</span></div>
+          <div class="fact"><span class="label">EDUCATION</span><span class="value">B.Sc. Computer Science</span></div>
+          <div class="fact"><span class="label">LANGUAGES</span><span class="value">Arabic, English (C1)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Tech Stack</p>
+        <h2>Tools I build with</h2>
+        <p>Grouped by where they sit in the stack — from architecture decisions down to the tools that ship the code.</p>
+      </div>
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <h3>Architecture &amp; Engineering</h3>
+          <div class="tag-row">
+            <span class="tag">Clean Architecture</span>
+            <span class="tag">SOLID Principles</span>
+            <span class="tag">Repository &amp; UoW</span>
+            <span class="tag">Dependency Injection</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Backend</h3>
+          <div class="tag-row">
+            <span class="tag">ASP.NET Core Web API</span>
+            <span class="tag">ASP.NET Core Identity</span>
+            <span class="tag">JWT</span>
+            <span class="tag">Entity Framework Core</span>
+            <span class="tag">C#</span>
+            <span class="tag">SignalR</span>
+            <span class="tag">RESTful APIs</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Databases &amp; Caching</h3>
+          <div class="tag-row">
+            <span class="tag">SQL Server</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Caching</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Testing</h3>
+          <div class="tag-row">
+            <span class="tag">xUnit</span>
+            <span class="tag">Unit Testing</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>DevOps &amp; Tools</h3>
+          <div class="tag-row">
+            <span class="tag">Docker</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">Git &amp; GitHub</span>
+            <span class="tag">Postman</span>
+            <span class="tag">Swagger / OpenAPI</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Additional</h3>
+          <div class="tag-row">
+            <span class="tag">React.js</span>
+            <span class="tag">Python</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Prompt Engineering</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Experience</p>
+        <h2>Where I've worked</h2>
+        <p>A mix of hands-on backend development and technical training in software development fundamentals.</p>
+      </div>
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-head">
+            <h3>Technical Trainer</h3>
+            <span class="timeline-date">08/2026 – Present</span>
+          </div>
+          <p class="timeline-org">EYouth | MCIT <span>· Cairo</span></p>
+          <p>Delivering MCIT-sponsored training in backend, frontend, and software development, guiding students through practical programming skills.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-head">
+            <h3>Backend Developer Intern</h3>
+            <span class="timeline-date">02/2026 – 04/2026</span>
+          </div>
+          <p class="timeline-org">MKA AI <span>· Remote</span></p>
+          <p>Developed high-performance backend applications and optimized RESTful APIs for scalability and efficiency.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-head">
+            <h3>Software Development Instructor</h3>
+            <span class="timeline-date">01/2025 – 01/2026</span>
+          </div>
+          <p class="timeline-org">Remote <span>· UAE</span></p>
+          <ul>
+            <li>Delivered training in backend, frontend, and software development.</li>
+            <li>Guided students through practical programming skills.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Projects</p>
+        <h2>Selected work</h2>
+        <p>Backend-focused projects built around clean architecture, secure authentication, and real-world API design.</p>
+      </div>
+
+      <!-- Featured -->
+      <div class="project-featured reveal">
+        <div class="project-featured-grid">
+          <div class="project-visual" aria-hidden="true">
+            <div class="arch-node"><span class="dot"></span>Client / Postman</div>
+            <div class="arch-connector"></div>
+            <div class="arch-node"><span class="dot"></span>JWT · Identity</div>
+            <div class="arch-connector"></div>
+            <div class="arch-node center"><span class="dot"></span>ASP.NET Core Web API</div>
+            <div class="arch-connector"></div>
+            <div class="arch-node"><span class="dot"></span>SignalR · Redis</div>
+            <div class="arch-connector"></div>
+            <div class="arch-node"><span class="dot"></span>SQL Server · Docker</div>
+          </div>
+          <div class="project-body">
+            <p class="project-label">Featured Project</p>
+            <h3>Restaurant Ordering System</h3>
+            <span class="project-date">08/2026 – 09/2026</span>
+            <p>A scalable ASP.NET Core Web API built with Clean Architecture, SOLID principles, and the Repository &amp; Unit of Work pattern. Includes JWT/Identity authentication, Redis caching, SignalR for real-time order notifications, and full containerized deployment.</p>
+            <div class="project-tech">
+              <span class="tag">ASP.NET Core</span>
+              <span class="tag">Clean Architecture</span>
+              <span class="tag">EF Core</span>
+              <span class="tag">SQL Server</span>
+              <span class="tag">Redis</span>
+              <span class="tag">JWT / Identity</span>
+              <span class="tag">SignalR</span>
+              <span class="tag">Docker</span>
+              <span class="tag">GitHub Actions</span>
+              <span class="tag">xUnit</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+                View on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary -->
+      <div class="projects-secondary reveal">
+        <div class="project-card">
+          <h3>Smart Learning App</h3>
+          <span class="project-date">05/2026 – 06/2026</span>
+          <p>An ASP.NET Core Web API built with N-Tier Architecture and SOLID principles, featuring JWT authentication, Redis caching, and Gemini AI integration, documented with Swagger/OpenAPI.</p>
+          <div class="project-tech">
+            <span class="tag">ASP.NET Core</span>
+            <span class="tag">N-Tier</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Gemini AI</span>
+          </div>
+          <a href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+        <div class="project-card">
+          <h3>Full-Stack E-Commerce</h3>
+          <span class="project-date">05/2025 – 07/2025</span>
+          <p>A full-stack application with React.js and ASP.NET Core Web API, featuring JWT authentication, product management, shopping cart, and order management on SQL Server.</p>
+          <div class="project-tech">
+            <span class="tag">React.js</span>
+            <span class="tag">ASP.NET Core</span>
+            <span class="tag">JWT</span>
+            <span class="tag">SQL Server</span>
+          </div>
+          <a href="https://github.com/mostafaelesaily" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGINEERING FOCUS -->
+  <section id="focus">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Engineering Focus</p>
+        <h2>What I build</h2>
+        <p>The problems I gravitate toward when designing a backend system.</p>
+      </div>
+      <div class="focus-grid reveal">
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="11" width="18" height="10" rx="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <h3>Secure Authentication</h3>
+          <p>JWT and ASP.NET Core Identity for reliable, token-based access control.</p>
+        </div>
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17V7a2 2 0 0 1 2-2h9l5 5v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 21v-6h6v6"/></svg>
+          <h3>Scalable REST APIs</h3>
+          <p>Well-structured endpoints designed around real client needs and growth.</p>
+        </div>
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <h3>Clean &amp; Maintainable Architecture</h3>
+          <p>Clean Architecture and SOLID principles to keep systems easy to extend.</p>
+        </div>
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          <h3>Real-Time Communication</h3>
+          <p>SignalR for live updates and notifications between server and client.</p>
+        </div>
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
+          <h3>Caching &amp; Performance</h3>
+          <p>Redis caching to reduce load and keep response times low.</p>
+        </div>
+        <div class="focus-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 8V6a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 6v12a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7v-2"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+          <h3>Containerized Deployment</h3>
+          <p>Docker and CI/CD pipelines with GitHub Actions for consistent releases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION + LANGUAGES -->
+  <section id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Education &amp; Languages</p>
+        <h2>Background</h2>
+      </div>
+      <div class="split-two reveal">
+        <div class="info-card">
+          <h3>Bachelor of Computer Science (BCS)</h3>
+          <p class="org">El Shrouk Academy</p>
+          <p class="date">09/2023 – Present · Cairo</p>
+        </div>
+        <div class="info-card">
+          <div class="lang-row">
+            <span class="name">English</span>
+            <span class="level">C1</span>
+          </div>
+          <div class="lang-row">
+            <span class="name">Arabic</span>
+            <span class="level">Native</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-inner reveal">
+        <p class="eyebrow" style="justify-content:center;">Contact</p>
+        <h2>Let's build something reliable.</h2>
+        <p>Open to backend and software engineering internships, and junior roles. Feel free to reach out.</p>
+        <div class="contact-links">
+          <a class="contact-link" href="mailto:elesialy@gmail.com">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>
+            <span class="txt"><span class="label">Email</span><span class="value">elesialy@gmail.com</span></span>
+          </a>
+          <a class="contact-link" href="tel:+201094872269">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8.1 9.6a16 16 0 0 0 6 6l1.1-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg></span>
+            <span class="txt"><span class="label">Phone</span><span class="value">+20 109 487 2269</span></span>
+          </a>
+          <a class="contact-link" href="https://github.com/mostafaelesaily" target="_blank" rel="noopener">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.75 5.48.75 11.75c0 5.02 3.26 9.28 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.16.69-3.83-1.34-3.83-1.34-.52-1.32-1.26-1.67-1.26-1.67-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.23 3.31.94.1-.74.4-1.23.72-1.52-2.52-.29-5.17-1.26-5.17-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.16.91-.25 1.89-.38 2.86-.38.97 0 1.95.13 2.86.38 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.18 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.66.79.55 4.51-1.5 7.77-5.76 7.77-10.78C23.25 5.48 18.27.5 12 .5z"/></svg></span>
+            <span class="txt"><span class="label">GitHub</span><span class="value">github.com/mostafaelesaily</span></span>
+          </a>
+          <a class="contact-link" href="https://linkedin.com/in/mostafa-el-esialy-7b7827328" target="_blank" rel="noopener">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></span>
+            <span class="txt"><span class="label">LinkedIn</span><span class="value">mostafa-el-esialy</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <p class="footer-brand"><strong>Mostafa El Esialy</strong> — Backend Developer</p>
+      <div class="footer-links">
+        <a href="https://github.com/mostafaelesaily" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/mostafa-el-esialy-7b7827328" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:elesialy@gmail.com">Email</a>
+      </div>
+      <p class="footer-copy">© 2026 Mostafa El Esialy</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var header = document.getElementById('siteHeader');
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var navLinks = document.querySelectorAll('[data-nav]');
+  var sections = document.querySelectorAll('main section[id]');
+
+  // Scrolled header state
+  function onScroll(){
+    if(window.scrollY > 8){ header.classList.add('scrolled'); }
+    else{ header.classList.remove('scrolled'); }
+  }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile menu toggle
+  hamburger.addEventListener('click', function(){
+    var isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+
+  navLinks.forEach(function(link){
+    link.addEventListener('click', function(){
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Active nav link on scroll
+  if('IntersectionObserver' in window){
+    var navMap = {};
+    navLinks.forEach(function(link){
+      var id = link.getAttribute('href').replace('#','');
+      navMap[id] = navMap[id] || [];
+      navMap[id].push(link);
+    });
+
+    var navObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          Object.keys(navMap).forEach(function(id){
+            navMap[id].forEach(function(l){ l.classList.remove('active'); });
+          });
+          var current = navMap[entry.target.id];
+          if(current){ current.forEach(function(l){ l.classList.add('active'); }); }
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+    sections.forEach(function(s){ navObserver.observe(s); });
+
+    // Reveal-on-scroll
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(function(el){
+      revealObserver.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Hero photo: use local `me` image, otherwise keep the SVG fallback
+  (function loadHeroPhoto(){
+    var img = document.querySelector('.photo-img');
+    var fallback = document.getElementById('photo-fallback');
+    var tagName = document.getElementById('photo-tag-name');
+    if(!img || !fallback) return;
+
+    var candidates = ['me.jpg','me.jpeg','me.png','me.webp','me.gif','me.JPG','me.PNG','me'];
+    var i = 0;
+
+    function showFallback(){
+      img.classList.add('is-hidden');
+      img.removeAttribute('src');
+      fallback.classList.remove('is-hidden');
+      if(tagName) tagName.textContent = 'svg';
+    }
+
+    function showPhoto(src){
+      img.classList.remove('is-hidden');
+      fallback.classList.add('is-hidden');
+      if(tagName) tagName.textContent = src;
+    }
+
+    function tryNext(){
+      if(i >= candidates.length){
+        showFallback();
+        return;
+      }
+      var src = candidates[i++];
+      img.onload = function(){ showPhoto(src); };
+      img.onerror = tryNext;
+      img.src = src;
+    }
+
+    tryNext();
+  })();
+
+  // Download CV placeholder — no CV file provided, so avoid a dead/fake link
+  var cvBtn = document.getElementById('downloadCv');
+  cvBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    cvBtn.textContent = 'CV coming soon';
+    setTimeout(function(){ cvBtn.textContent = 'Download CV'; }, 1800);
+  });
+})();
+</script>
+
+</body>
+</html>
